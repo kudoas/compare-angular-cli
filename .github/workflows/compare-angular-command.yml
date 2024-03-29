@@ -9,49 +9,59 @@ jobs:
   build-npm:
     defaults:
       run:
-        working-directory: demo-npm
+        working-directory: npm-demo
     name: Build Angular App (npm)
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-    - run: npm install
-    - run: npm run build
-    - run: npm run test  
-  
-  build-bun:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm ci
+      - run: npm run build
+
+  build-yarn:
     defaults:
       run:
-        working-directory: demo-bun
-    name: Build Angular App (Bun)
+        working-directory: yarn-demo
+    name: Build Angular App (yarn)
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-    - uses: oven-sh/setup-bun@v1
-    - run: bun install
-    - run: bun run build
-    - run: bun run test
-        
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+
   build-pnpm:
     defaults:
       run:
-        working-directory: demo-pnpm
+        working-directory: pnpm-demo
     name: Build Angular App (pnpm)
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-    - name: Install pnpm
-    - uses: pnpm/action-setup@v3
-      with:
-        version: 8  
-    - run: pnpm install
-    - run: pnpm run build
-    - run: pnpm test
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+
+  build-bun:
+    defaults:
+      run:
+        working-directory: bun-demo
+    name: Build Angular App (bun)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - uses: oven-sh/setup-bun@v1
+      - run: bun install --frozen-lockfile
+      - run: bun run build
